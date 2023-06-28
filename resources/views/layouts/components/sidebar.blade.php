@@ -62,12 +62,12 @@
             <span>Size</span></a>
     </li>
     <li class="nav-item @if(Request::segment(1)=='product') {{'active'}}@endif">
-        <a class="nav-link" href="product">
+        <a class="nav-link" href="{{ url('product')}}">
             <i class="fas fa-fw fa-folder"></i>
             <span>Product</span></a>
     </li>
     <li class="nav-item @if(Request::segment(1)=='customer') {{'active'}}@endif">
-        <a class="nav-link" href="customer">
+        <a class="nav-link" href="{{ url('customer')}}">
             <i class="fas fa-fw fa-folder"></i>
             <span>Customer</span></a>
     </li>

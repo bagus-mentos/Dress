@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\Account;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Hash;
+
 
 class AccountController extends Controller
 {
@@ -19,7 +21,7 @@ class AccountController extends Controller
     public function getAccount(Request $request): JsonResponse
     {
         if ($request->ajax()) {
-            $data = User::latest()->get();
+            $data = Account::latest()->get();
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
@@ -41,7 +43,8 @@ class AccountController extends Controller
     public function create(): View
     {
         $action = route("account.store");
-        return view('account.form', compact('action'));
+        $hide = false;
+        return view('account.form', compact('action', 'hide'));
     }
 
     /**
@@ -52,15 +55,15 @@ class AccountController extends Controller
         //validate form
         $this->validate($request, [
             'name'     => 'required',
-            'phonenumber'   => 'required',
-            'address'   => 'required'
+            'email'   => 'required|email|unique:users',
+            'password'   => 'required'
         ]);
 
         //create post
-        User::create([
+        Account::create([
             'name'     => $request->name,
-            'phonenumber'   => $request->phonenumber,
-            'address'   => $request->address
+            'email'   => $request->email,
+            'password'   => Hash::make($request->password),
         ]);
 
         //redirect to index
@@ -70,7 +73,7 @@ class AccountController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $user): View
+    public function show(Account $account): View
     {
         return view('account.show', compact('account'));
     }
@@ -78,30 +81,31 @@ class AccountController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $user): View
+    public function edit($id): View
     {
-        $action = route('account.update', $user->idr_account);
-        return view('account.form', compact('account', 'action'));
+        $account = Account::findOrFail($id);
+        $action = route('account.update', $account->id);
+        $hide = true;
+
+        return view('account.form', compact('account', 'action', 'hide'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user): RedirectResponse
+    public function update(Request $request, Account $account): RedirectResponse
     {
         //validate form
         $this->validate($request, [
             'name'     => 'required',
-            'phonenumber'   => 'required',
-            'address'   => 'required'
+            'email'   => 'required|email'
         ]);
 
-        //create post
-        $user->update([
-            'name'     => $request->name,
-            'phonenumber'   => $request->phonenumber,
-            'address'   => $request->address
-        ]);
+        $input = $request->all();
+        // dd($input);
+
+        $account->update($input);
+
 
         //redirect to index
         return redirect()->route('account.index')->with(['success' => 'Record updated successfully.']);
@@ -110,10 +114,10 @@ class AccountController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user): JsonResponse
+    public function destroy(Account $account): JsonResponse
     {
         // dd($user);
-        if ($user->delete()) {
+        if ($account->delete()) {
             return response()->json(['code' => '200', 'message' => 'Record deleted successfully']);
         } else {
             return response()->json(['code' => '400', 'message' => 'Record failed to delete']);

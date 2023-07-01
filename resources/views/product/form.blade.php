@@ -11,6 +11,8 @@
         height: 40px !important;
     }
 
+    div.inline { float:left;margin-right: 40px;margin-top: 30px }
+    .clearBoth { clear:both; }
 </style>
 
 <div class="container-fluid">
@@ -153,10 +155,42 @@
         </div>
 
         <div class="card shadow mb-4 mt-4">
-            <div class="card-body">
+            <div class="card-body" align="center">
+                
+                <div class="inline" >
+                    <div class="form-group" align="center">
+                        <label class="font-weight-bold">Gambar 1</label><br/>
+                        <img id="img1" src="https://assets.tokopedia.net/assets-tokopedia-lite/v2/icarus/kratos/8d58e463.svg" style="width:200px;height:300px;"/>
+                        <input accept="image/*" type='file' id="imgInp1" class="form-control @error('pic1') is-invalid @enderror" name="pic1" />
+                    </div>
+                </div>
+                <div class="inline" >
+                    <div class="form-group" align="center">
+                        <label class="font-weight-bold">Gambar 2</label><br/>
+                        <img id="img2" src="https://assets.tokopedia.net/assets-tokopedia-lite/v2/icarus/kratos/8d58e463.svg" style="width:200px;height:300px;"/>
+                        <input accept="image/*" type='file' id="imgInp2" class="form-control @error('pic2') is-invalid @enderror" name="pic2" />
+                    </div>
+                </div>
+                <div class="inline" >
+                    <div class="form-group" align="center">
+                        <label class="font-weight-bold">Gambar 3</label><br/>
+                        <img id="img3" src="https://assets.tokopedia.net/assets-tokopedia-lite/v2/icarus/kratos/8d58e463.svg" style="width:200px;height:300px;"/>
+                        <input accept="image/*" type='file' id="imgInp3" class="form-control @error('pic3') is-invalid @enderror" name="pic3" />
+                    </div>
+                </div>
+                <div class="inline" >
+                    <div class="form-group" align="center">
+                        <label class="font-weight-bold">Gambar 4</label><br/>
+                        <img id="img4" src="https://assets.tokopedia.net/assets-tokopedia-lite/v2/icarus/kratos/8d58e463.svg" style="width:200px;height:300px;"/>
+                        <input accept="image/*" type='file' id="imgInp4" class="form-control @error('pic4') is-invalid @enderror" name="pic4" />
+                    </div>
+                </div>
+                
+{{-- 
                 <div class="form-group">
-                    <label class="font-weight-bold">Picture 1</label>
-                    <input type="file" class="form-control @error('pic1') is-invalid @enderror" name="pic1">
+                    <label class="custom-file-upload">Gambar 1
+                        <input type="file" class="form-control @error('pic1') is-invalid @enderror" name="pic1">
+                    </label>
                     @error('pic1')
                     <div class="alert alert-danger mt-2">
                         {{ $message }}
@@ -164,7 +198,7 @@
                     @enderror
                 </div>
                 <div class="form-group">
-                    <label class="font-weight-bold">Picture 2</label>
+                    <label class="font-weight-bold">Gambar 2</label>
                     <input type="file" class="form-control @error('pic2') is-invalid @enderror" name="pic2">
                     @error('pic2')
                     <div class="alert alert-danger mt-2">
@@ -173,16 +207,16 @@
                     @enderror
                 </div>
                 <div class="form-group">
-                    <label class="font-weight-bold">Picture 3</label>
+                    <label class="font-weight-bold">Gambar 3</label>
                     <input type="file" class="form-control @error('pic3') is-invalid @enderror" name="pic3">
                     @error('pic3')
                     <div class="alert alert-danger mt-2">
                         {{ $message }}
                     </div>
                     @enderror
-                </div>
+                </div> 
                 <div class="form-group">
-                    <label class="font-weight-bold">Picture 4</label>
+                    <label class="font-weight-bold">Gambar 4</label>
                     <input type="file" class="form-control @error('pic4') is-invalid @enderror" name="pic4">
                     @error('pic4')
                     <div class="alert alert-danger mt-2">
@@ -190,6 +224,7 @@
                     </div>
                     @enderror
                 </div>
+--}}
             </div>
         </div>
             <div class="card-footer text-right">
@@ -212,7 +247,30 @@
     $(document).ready(function() {
         $('.select2-basic-single').select2();
     });
-
+    imgInp1.onchange = evt => {
+        const [file] = imgInp1.files
+        if (file) {
+            img1.src = URL.createObjectURL(file)
+        }
+    }
+    imgInp2.onchange = evt => {
+        const [file] = imgInp2.files
+        if (file) {
+            img2.src = URL.createObjectURL(file)
+        }
+    }
+    imgInp3.onchange = evt => {
+        const [file] = imgInp3.files
+        if (file) {
+            img3.src = URL.createObjectURL(file)
+        }
+    }
+    imgInp4.onchange = evt => {
+        const [file] = imgInp4.files
+        if (file) {
+            img4.src = URL.createObjectURL(file)
+        }
+    }
 </script>
 <script type="text/javascript">
     $('#cp2').colorpicker();

@@ -3,16 +3,27 @@
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 @endpush
 @section('content')
-<div class="container-fluid">
+<style>
+    .select2 {
+        width: 100%;
+    }
+    .select2-container .select2-selection--single {
+        height: 40px !important;
+    }
 
+</style>
+
+<div class="container-fluid">
+    
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800">Product</h1>
-    <div class="card shadow mb-4 mt-4">
-        <form method="POST" action="{{ $action }}" enctype="multipart/form-data">
-            @csrf
-            @if (isset($product))
-            @method('PUT')
-            @endif
+    <form method="POST" action="{{ $action }}" enctype="multipart/form-data">
+        @csrf
+        @if (isset($product))
+        @method('PUT')
+        @endif
+        
+        <div class="card shadow mb-4 mt-4">
             <div class="card-header">
                 <h6 class="m-0 font-weight-bold text-primary">Form {{ isset($data)?'Ubah':'Tambah' }} Product </h6>
             </div>
@@ -31,7 +42,7 @@
                 </div>
                 <div class="form-group">
                     <label class="font-weight-bold">Fabric</label>
-                    <select name="idr_fabric" class="form-control select2-basic-single @error('idr_fabric') is-invalid @enderror" aria-required="true" aria-invalid="false">
+                    <select name="idr_fabric"  class="form-control select2-basic-single @error('idr_fabric') is-invalid @enderror" aria-required="true" aria-invalid="false">
                         <option value="">-- Pilih Data --</option>
                         @foreach ($fabric as $res)
                         <option value="{{ $res->idr_fabric }}" {{ old('idr_fabric', isset($product) ? $product->idr_fabric : '') == $res->idr_fabric ? 'selected' : '' }}>{{ $res->name }}</option>
@@ -43,7 +54,7 @@
                 </div>
                 <div class="form-group">
                     <label class="font-weight-bold">Collection</label>
-                    <select name="idr_collection" class="form-control select2-basic-single @error('idr_collection') is-invalid @enderror" aria-required="true" aria-invalid="false">
+                    <select name="idr_collection"  class="form-control select2-basic-single @error('idr_collection') is-invalid @enderror" aria-required="true" aria-invalid="false">
                         <option value="">-- Pilih Data --</option>
                         @foreach ($collection as $res)
                         <option value="{{ $res->idr_collection }}" {{ old('idr_collection', isset($product) ? $product->idr_collection : '') == $res->idr_collection ? 'selected' : '' }}>{{ $res->name }}</option>
@@ -55,7 +66,7 @@
                 </div>
                 <div class="form-group">
                     <label class="font-weight-bold">Size</label>
-                    <select name="idr_size" class="form-control select2-basic-single @error('idr_size') is-invalid @enderror" aria-required="true" aria-invalid="false">
+                    <select name="idr_size"  class="form-control select2-basic-single @error('idr_size') is-invalid @enderror" aria-required="true" aria-invalid="false">
                         <option value="">-- Pilih Data --</option>
                         @foreach ($size as $res)
                         <option value="{{ $res->idr_size }}" {{ old('idr_size', isset($product) ? $product->idr_size : '') == $res->idr_size ? 'selected' : '' }}>{{ $res->name }}</option>
@@ -65,6 +76,10 @@
                     <p style="width: 100%;font-size: 80%;color: #e3342f;">{{ $message }}</p>
                     @enderror
                 </div>
+            </div>
+        </div>
+        <div class="card shadow mb-4 mt-4">
+            <div class="card-body">
                 <div class="form-group">
                     <label class="font-weight-bold">Nama</label>
                     <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{ old('name', isset($product) ? $product->name : '') }}" placeholder="Input Name">
@@ -93,14 +108,27 @@
                     @enderror
                 </div>
                 <div class="form-group">
-                    <label class="font-weight-bold">Notes</label>
-                    <input type="text" name="notes" class="form-control @error('notes') is-invalid @enderror" value="{{ old('notes', isset($product) ? $product->notes : '') }}" placeholder="Input notes">
-                    @error('notes')
+                    <label class="font-weight-bold">Color</label>
+                    <div id="cp2" class="input-group colorpicker-component"> 
+                      <input type="text" value="#00AABB" class="form-control" /> 
+                      <span class="input-group-addon"><i></i></span>
+                    </div>
+                </div>
+                {{-- <div class="form-group">
+                    <label class="font-weight-bold">Color</label>
+                    <input type="text" name="color" class="form-control @error('color') is-invalid @enderror" value="{{ old('color', isset($product) ? $product->color : '') }}" placeholder="Input color">
+                    @error('color')
                     <div class="invalid-feedback">
                         {{ $message }}
                     </div>
                     @enderror
-                </div>
+                </div> --}}
+                
+            </div>
+        </div>
+        <div class="card shadow mb-4 mt-4">
+            <div class="card-body">
+                
                 <div class="form-group">
                     <label class="font-weight-bold">Condition</label>
                     <input type="text" name="condition" class="form-control @error('condition') is-invalid @enderror" value="{{ old('condition', isset($product) ? $product->condition : '') }}" placeholder="Input condition">
@@ -111,14 +139,21 @@
                     @enderror
                 </div>
                 <div class="form-group">
-                    <label class="font-weight-bold">Color</label>
-                    <input type="text" name="color" class="form-control @error('color') is-invalid @enderror" value="{{ old('color', isset($product) ? $product->color : '') }}" placeholder="Input color">
-                    @error('color')
+
+                    <label class="font-weight-bold">Notes</label>
+                    {{-- <input type="text" name="notes" class="form-control @error('notes') is-invalid @enderror" value="{{ old('notes', isset($product) ? $product->notes : '') }}" placeholder="Input notes"> --}}
+                    <textarea name="notes" class="form-control @error('notes') is-invalid @enderror" value="{{ old('notes', isset($product) ? $product->notes : '') }}" placeholder="Input notes" rows="5"></textarea>
+                    @error('notes')
                     <div class="invalid-feedback">
                         {{ $message }}
                     </div>
                     @enderror
                 </div>
+            </div>
+        </div>
+
+        <div class="card shadow mb-4 mt-4">
+            <div class="card-body">
                 <div class="form-group">
                     <label class="font-weight-bold">Picture 1</label>
                     <input type="file" class="form-control @error('pic1') is-invalid @enderror" name="pic1">
@@ -156,20 +191,30 @@
                     @enderror
                 </div>
             </div>
+        </div>
             <div class="card-footer text-right">
                 <a href="{{ route('product.index') }}" class="btn btn-info icon-left"><i class="fas fa-arrow-left mr-1"></i>Back</a>
                 <button class="btn btn-primary"><i class="far fa-save mr-1"></i>Submit</button>
             </div>
         </form>
-    </div>
+    
 </div>
 @endsection
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.3.6/css/bootstrap-colorpicker.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.3.6/js/bootstrap-colorpicker.js"></script>
+
 <script>
     $(document).ready(function() {
         $('.select2-basic-single').select2();
     });
 
+</script>
+<script type="text/javascript">
+    $('#cp2').colorpicker();
 </script>
 @endpush

@@ -27,7 +27,7 @@
         
         <div class="card shadow mb-4 mt-4">
             <div class="card-header">
-                <h6 class="m-0 font-weight-bold text-primary">Form {{ isset($data)?'Ubah':'Tambah' }} Product </h6>
+                <h6 class="m-0 font-weight-bold text-primary">Klasifikasi</h6>
             </div>
             <div class="card-body">
                 <div class="form-group">
@@ -81,16 +81,10 @@
             </div>
         </div>
         <div class="card shadow mb-4 mt-4">
+            <div class="card-header">
+                <h6 class="m-0 font-weight-bold text-primary">Detail</h6>
+            </div>
             <div class="card-body">
-                <div class="form-group">
-                    <label class="font-weight-bold">Nama</label>
-                    <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{ old('name', isset($product) ? $product->name : '') }}" placeholder="Input Name">
-                    @error('name')
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>
-                    @enderror
-                </div>
                 <div class="form-group">
                     <label class="font-weight-bold">Code</label>
                     <input type="text" name="code" class="form-control @error('code') is-invalid @enderror" value="{{ old('code', isset($product) ? $product->code : '') }}" placeholder="Input code">
@@ -100,6 +94,16 @@
                     </div>
                     @enderror
                 </div>
+                <div class="form-group">
+                    <label class="font-weight-bold">Nama</label>
+                    <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{ old('name', isset($product) ? $product->name : '') }}" placeholder="Input Name">
+                    @error('name')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                    @enderror
+                </div>
+                
                 <div class="form-group">
                     <label class="font-weight-bold">Price</label>
                     <input type="text" name="price" class="form-control @error('price') is-invalid @enderror" value="{{ old('price', isset($product) ? $product->price : '') }}" placeholder="Input price">
@@ -129,8 +133,10 @@
             </div>
         </div>
         <div class="card shadow mb-4 mt-4">
+            <div class="card-header">
+                <h6 class="m-0 font-weight-bold text-primary">Extra</h6>
+            </div>
             <div class="card-body">
-                
                 <div class="form-group">
                     <label class="font-weight-bold">Condition</label>
                     <input type="text" name="condition" class="form-control @error('condition') is-invalid @enderror" value="{{ old('condition', isset($product) ? $product->condition : '') }}" placeholder="Input condition">
@@ -155,6 +161,9 @@
         </div>
 
         <div class="card shadow mb-4 mt-4">
+            <div class="card-header">
+                <h6 class="m-0 font-weight-bold text-primary">Gambar</h6>
+            </div>
             <div class="card-body" align="center">
                 
                 <div class="inline" >

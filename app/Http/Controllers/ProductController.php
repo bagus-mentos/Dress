@@ -7,6 +7,7 @@ use App\Models\Fabric;
 use App\Models\Product;
 use App\Models\Size;
 use App\Models\SubCategory;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Illuminate\Http\JsonResponse;
@@ -59,6 +60,13 @@ class ProductController extends Controller
         }
     }
 
+    public function getSubCategory($id): JsonResponse
+    {
+        $data = SubCategory::where('idr_category', $id)->get();
+        // dd($data);
+        return response()->json($data);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -67,11 +75,12 @@ class ProductController extends Controller
         $action = route("product.store");
 
         $subCategory = SubCategory::get();
+        $category = Category::get();
         $fabric = Fabric::get();
         $collection = Collection::get();
         $size = Size::get();
 
-        return view('product.form', compact('action', 'subCategory', 'fabric', 'collection', 'size'));
+        return view('product.form', compact('action', 'subCategory', 'fabric', 'collection', 'size', 'category'));
     }
 
     /**
@@ -86,6 +95,7 @@ class ProductController extends Controller
             'pic3'     => 'image|mimes:jpeg,jpg,png|max:2048',
             'pic4'     => 'image|mimes:jpeg,jpg,png|max:2048',
             'idr_subcategory'     => 'required',
+            'idr_category'     => 'required',
             'idr_fabric'     => 'required',
             'idr_collection'     => 'required',
             'idr_size'     => 'required',
@@ -166,12 +176,13 @@ class ProductController extends Controller
     {
         $action = route('product.update', $product->idr_product);
 
+        $category = Category::get();
         $subCategory = SubCategory::get();
         $fabric = Fabric::get();
         $collection = Collection::get();
         $size = Size::get();
 
-        return view('product.form', compact('product', 'action', 'subCategory', 'fabric', 'collection', 'size'));
+        return view('product.form', compact('product', 'action', 'subCategory', 'fabric', 'collection', 'size', 'category'));
     }
 
     /**
@@ -186,6 +197,7 @@ class ProductController extends Controller
             'pic3'     => 'image|mimes:jpeg,jpg,png|max:2048',
             'pic4'     => 'image|mimes:jpeg,jpg,png|max:2048',
             'idr_subcategory'     => 'required',
+            'idr_category'     => 'required',
             'idr_fabric'     => 'required',
             'idr_collection'     => 'required',
             'idr_size'     => 'required',

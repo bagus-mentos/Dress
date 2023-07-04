@@ -44,4 +44,5 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('product', ProductController::class);
     Route::get('getProduct', [ProductController::class, 'getProduct'])->name('product.getProduct');
+    Route::get('getSubCategory/{id}', [ProductController::class, 'getSubCategory'])->name('product.getSubCategory');
 });

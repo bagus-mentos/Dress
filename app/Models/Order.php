@@ -12,4 +12,14 @@ class Order extends Model
     protected $table = 'torder';
     protected $primaryKey = 'idt_order';
     protected $guarded = ['idt_order'];
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'idr_product', 'idr_product');
+    }
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'idr_customer', 'idr_customer');
+    }
 }

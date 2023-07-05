@@ -6,7 +6,7 @@
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Customer</h1>
+    <h1 class="h3 mb-2 text-gray-800">Order</h1>
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4 mt-4">
@@ -14,7 +14,7 @@
             <div class="d-sm-flex align-items-center justify-content-between ">
                 <h6 class="m-0 font-weight-bold text-primary">DataTables </h6>
 
-                <a href="{{route('customer.create')}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Add Record</a>
+                <a href="{{route('order.create')}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Add Record</a>
             </div>
         </div>
         <div class="card-body">
@@ -23,9 +23,15 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Name</th>
-                            <th>Phone Number</th>
-                            <th>Address</th>
+                            <th>Product</th>
+                            <th>Customer</th>
+                            <th>Rent Start Date</th>
+                            <th>Rent End Date</th>
+                            <th>Event Date</th>
+                            <th>Appointment Date</th>
+                            <th>Down Payment</th>
+                            <th>Notes</th>
+                            <th>Status</th>
                             <th>#</th>
                         </tr>
                     </thead>
@@ -49,10 +55,29 @@
                     , className: "text-center"
                 }
                 , {
-                    data: 'idr_product'
+                    data: 'productName'
                 }
                 , {
-                    data: 'idr_customer'
+                    data: 'customerName'
+                }
+                , {
+                    data: 'rent_start_date'
+                }
+                , {
+                    data: 'rent_end_date'
+                }
+                , {
+                    data: 'event_date'
+                }
+                , {
+                    data: 'appointment_date'
+                }
+                , {
+                    data: 'downpayment'
+                    , className: "text-right"
+                }
+                , {
+                    data: 'notes'
                 }
                 , {
                     data: 'idr_status'

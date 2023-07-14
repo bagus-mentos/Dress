@@ -2,17 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\Collection;
 use App\Models\Fabric;
-use App\Models\Product;
 use App\Models\Size;
 use App\Models\SubCategory;
 use App\Models\Category;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 
 class ProductController extends Controller
 {
@@ -31,10 +34,9 @@ class ProductController extends Controller
             $data = Product::get();
             return Datatables::of($data)
                 ->addIndexColumn()
-                // ->addColumn('pic1', function ($data) {
-                //     $pic1 = '<img src="' . asset('/products/' . $data->pic1) . '" class="rounded" style="width: 150px">';
-                //     return $pic1;
-                // })
+                ->addColumn('category', function ($data) {
+                    return Category::where('idr_category', $data->idr_category)->pluck('name')->first();
+                })
                 ->addColumn('subCategory', function ($data) {
                     return SubCategory::where('idr_subcategory', $data->idr_subcategory)->pluck('name')->first();
                 })
@@ -47,11 +49,14 @@ class ProductController extends Controller
                 ->addColumn('size', function ($data) {
                     return Size::where('idr_size', $data->idr_size)->pluck('name')->first();
                 })
-                ->addColumn('action', function ($row) {
+                ->editColumn('price', function ($row) {
+                    return 'Rp. ' . number_format($row->price) . ',-';
+                })
+                ->addColumn('action', function ($data) {
                     // <a href="' . route('customer.show' . $row->idr_customer) . '" class="btn btn-icon btn-info my-1" title="Edit"><i class="fas fa-search"></i></a>
                     $btn = '
-                    <a href="' . route('product.edit', $row->idr_product) . '" class="btn btn-icon btn-warning my-1" title="Edit"><i class="fas fa-edit"></i></a>
-                    <a href="' . route('product.destroy', $row->idr_product) . '" class="btn btn-icon btn-danger btn-delete-on-table" title="Delete"><i class="fas fa-trash"></i></a>
+                    <a href="' . route('product.edit', $data->idr_product) . '" class="btn btn-icon btn-warning my-1" title="Edit"><i class="fas fa-edit"></i></a>
+                    <a href="' . route('product.destroy', $data->idr_product) . '" class="btn btn-icon btn-danger btn-delete-on-table" title="Delete"><i class="fas fa-trash"></i></a>
                     ';
                     return $btn;
                 })
@@ -79,8 +84,8 @@ class ProductController extends Controller
         $fabric = Fabric::get();
         $collection = Collection::get();
         $size = Size::get();
-
-        return view('product.form', compact('action', 'subCategory', 'fabric', 'collection', 'size', 'category'));
+        $events = [];
+        return view('product.form', compact('action', 'subCategory', 'fabric', 'collection', 'size','category','events'));
     }
 
     /**
@@ -88,9 +93,10 @@ class ProductController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+
         //validate form
         $this->validate($request, [
-            'pic1'     => 'required|image|mimes:jpeg,jpg,png|max:2048',
+            'pic1'     => 'image|mimes:jpeg,jpg,png|max:2048',
             'pic2'     => 'image|mimes:jpeg,jpg,png|max:2048',
             'pic3'     => 'image|mimes:jpeg,jpg,png|max:2048',
             'pic4'     => 'image|mimes:jpeg,jpg,png|max:2048',
@@ -104,7 +110,7 @@ class ProductController extends Controller
             'notes'     => 'required',
             'price'     => 'required|integer',
             'condition'     => 'required',
-            'color'   => 'required'
+            //'color'   => 'required'
         ]);
 
         $input = $request->all();
@@ -176,13 +182,32 @@ class ProductController extends Controller
     {
         $action = route('product.update', $product->idr_product);
 
-        $category = Category::get();
+
+        $events = [];
+        $status = "";
+        $orders = Order::with(['product', 'customer'])
+        ->where('idr_product',$product->idr_product)
+        ->get();
+
+        foreach ($orders as $order) {
+            $date_end = Carbon::createFromFormat('Y-m-d', $order->event_date);
+            $order->idr_status == 1 ? $status = '(A) ' : '';
+            $events[] = [
+                'title' => $status.$order->customer->name,
+                'start' => $order->rent_start_date,
+                'end'   => $date_end,
+            ];
+        }
+        
         $subCategory = SubCategory::get();
+        $category = Category::get();
         $fabric = Fabric::get();
         $collection = Collection::get();
         $size = Size::get();
 
-        return view('product.form', compact('product', 'action', 'subCategory', 'fabric', 'collection', 'size', 'category'));
+        //dd($events);
+
+        return view('product.form', compact('product', 'action', 'subCategory', 'fabric', 'collection', 'size', 'category','events'));
     }
 
     /**
@@ -203,10 +228,10 @@ class ProductController extends Controller
             'idr_size'     => 'required',
             'name'     => 'required',
             'code'     => 'required',
-            'notes'     => 'required',
+            //'notes'     => 'required',
             'price'     => 'required|integer',
-            'condition'     => 'required',
-            'color'   => 'required'
+            //'condition'     => 'required',
+            //'color'   => 'required'
         ]);
 
         $input = $request->all();

@@ -38,7 +38,9 @@
                 <h6 class="m-0 font-weight-bold text-primary">Form {{ isset($data)?'Ubah':'Tambah' }} Order </h6>
             </div>
             <div class="card-body">
-
+                @if (isset($order))
+                <input type="hidden" name="idt_order" value="{{$order->idt_order}}"/>
+                @endif
                 <div class="form-group">
                     <label class="font-weight-bold">Product</label>
                     <select name="idr_product" id='category' class="form-control select2 select2-basic-single @error('idr_product') is-invalid @enderror" aria-required="true" aria-invalid="false">
@@ -64,50 +66,15 @@
                     @enderror
                 </div>
                 <div class="form-group">
-                    <label class="font-weight-bold">Rent Start Date</label>
-                    <input type="date" name="rent_start_date" class="form-control @error('rent_start_date') is-invalid @enderror" value="{{ old('rent_start_date', isset($order) ? $order->rent_start_date : '') }}">
+                    <label class="font-weight-bold">Appointment Time</label>
+                    <input type="datetime-local" name="appointment_date" class="form-control @error('appointment_date') is-invalid @enderror" value="{{ old('appointment_date', isset($order) ? $order->appointment_date : '') }}">
                     @error('rent_start_date')
                     <div class="invalid-feedback">
                         {{ $message }}
                     </div>
                     @enderror
                 </div>
-                {{-- <div class="form-group">
-                    <label class="font-weight-bold">Rent End Date</label>
-                    <input type="date" name="rent_end_date" class="form-control @error('rent_end_date') is-invalid @enderror" value="{{ old('rent_end_date', isset($order) ? $order->rent_end_date : '') }}">
-                    @error('rent_end_date')
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>
-                    @enderror
-                </div> --}}
-                <div class="form-group">
-                    <label class="font-weight-bold">Rent End Date</label>
-                    <input type="date" name="event_date" class="form-control @error('event_date') is-invalid @enderror" value="{{ old('event_date', isset($order) ? $order->event_date : '') }}">
-                    @error('event_date')
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>
-                    @enderror
-                </div>
-                {{-- <div class="form-group">
-                    <label class="font-weight-bold">Appointment Date</label>
-                    <input type="date" name="appointment_date" class="form-control @error('appointment_date') is-invalid @enderror" value="{{ old('appointment_date', isset($order) ? $order->appointment_date : '') }}">
-                    @error('appointment_date')
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>
-                    @enderror
-                </div> --}}
-                <div class="form-group">
-                    <label class="font-weight-bold">Down Payment</label>
-                    <input type="number" name="downpayment" class="form-control @error('downpayment') is-invalid @enderror" value="{{ old('downpayment', isset($order) ? $order->downpayment : '') }}" placeholder="Input downpayment">
-                    @error('downpayment')
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>
-                    @enderror
-                </div>
+                
                 <div class="form-group">
                     <label class="font-weight-bold">Notes</label>
                     <input type="text" name="notes" class="form-control @error('notes') is-invalid @enderror" value="{{ old('notes', isset($order) ? $order->notes : '') }}" placeholder="Input notes">
@@ -117,19 +84,10 @@
                     </div>
                     @enderror
                 </div>
-                <label class="font-weight-bold">Status</label>
-                    <select name="idr_status" id='category' class="form-control select2 select2-basic-single @error('idr_status') is-invalid @enderror" aria-required="true" aria-invalid="false">
-                        <option value="">-- Pilih Data --</option>
-                        @foreach ($status as $res)
-                        <option value="{{ $res->idr_status }}" {{ old('idr_status', isset($order) ? $order->idr_status : '') == $res->idr_status ? 'selected' : '' }}>{{ $res->name }}</option>
-                        @endforeach
-                    </select>
-                    @error('idr_status')
-                    <p style="width: 100%;font-size: 80%;color: #e3342f;">{{ $message }}</p>
-                    @enderror
+                
             </div>
             <div class="card-footer text-right">
-                <a href="{{ route('order.index') }}" class="btn btn-info icon-left"><i class="fas fa-arrow-left mr-1"></i>Back</a>
+                <a href="{{ route('appointment') }}" class="btn btn-info icon-left"><i class="fas fa-arrow-left mr-1"></i>Back</a>
                 <button class="btn btn-primary"><i class="far fa-save mr-1"></i>Submit</button>
             </div>
         </form>

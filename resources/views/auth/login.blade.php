@@ -84,7 +84,7 @@
     <meta name="description" content="">
     <meta name="author" content="DOMEDIA">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
-    <link rel="shortcut icon" href="{{ asset('assets/img/heydomedia.jpg') }}">
+    <link rel="shortcut icon" href="https://m.media-amazon.com/images/I/81kfryV5WuL._AC_UF894,1000_QL80_.jpg">
 
     <title>{{config('app.name')}}</title>
 
@@ -114,7 +114,7 @@
                             <div class="col-lg-6">
                                 <div class="p-5 justify-content-center">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                                        <h1 class="h4 text-gray-900 mb-4"> {{config('app.name')}}</h1>
                                     </div>
                                     <form method="POST" action="{{ route('login') }}">
                                         @csrf
@@ -138,11 +138,19 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck">
-                                                <label class="custom-control-label" for="customCheck">Remember
-                                                    Me</label>
+                                                <div class="row">
+                                                  <div class="col-6">
+                                                    <input type="checkbox" class="custom-control-input" id="customCheck">
+                                                    <label class="custom-control-label" for="customCheck">Remember
+                                                        Me</label>    
+                                                    </div> 
+                                                    <div class="col-6 text-right"><a href="./register" >Register</a></div>
+                                                </div>
                                             </div>
+                                            
+
                                         </div>
+                                        
                                         <button class="btn btn-primary btn-user btn-block">
                                             Login
                                         </button>

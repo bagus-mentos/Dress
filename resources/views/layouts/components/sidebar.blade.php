@@ -2,21 +2,21 @@
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="">
-        <div class="sidebar-brand-icon">
+        {{-- <div class="sidebar-brand-icon">
             <img src="{{asset('assets/img/heydomedia.jpg')}}" alt="" class='h-8' height='56px'>
-        </div>
-        <div class="sidebar-brand-text mx-3">{{config('app.name')}} <sup>2</sup></div>
+        </div> --}}
+        <div class="sidebar-brand-text mx-3">{{config('app.name')}}</div>
     </a>
 
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item @if(Request::segment(1)=='dashboard') {{'active'}}@endif">
+    {{-- <li class="nav-item @if(Request::segment(1)=='dashboard') {{'active'}}@endif">
         <a class="nav-link" href="{{url('dashboard')}}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
-    </li>
+    </li> --}}
 
     <!-- Divider -->
     <hr class="sidebar-divider">
@@ -26,7 +26,7 @@
         Interface
     </div>
 
-    <li class="nav-item">
+    {{-- <li class="nav-item">
         <a class="nav-link" href="">
             <i class="fas fa-fw fa-folder"></i>
             <span>Category</span></a>
@@ -60,7 +60,7 @@
         <a class="nav-link" href="">
             <i class="fas fa-fw fa-folder"></i>
             <span>Size</span></a>
-    </li>
+    </li> --}}
     <li class="nav-item @if(Request::segment(1)=='product') {{'active'}}@endif">
         <a class="nav-link" href="{{ url('product')}}">
             <i class="fas fa-fw fa-folder"></i>
@@ -71,11 +71,11 @@
             <i class="fas fa-fw fa-folder"></i>
             <span>Customer</span></a>
     </li>
-    <li class="nav-item @if(Request::segment(1)=='account') {{'active'}}@endif">
+    {{-- <li class="nav-item @if(Request::segment(1)=='account') {{'active'}}@endif">
         <a class="nav-link" href="{{ url('account')}}">
             <i class="fas fa-fw fa-folder"></i>
             <span>User</span></a>
-    </li>
+    </li> --}}
 
     <hr class="sidebar-divider d-none d-md-block">
 
@@ -83,7 +83,11 @@
     <div class="sidebar-heading">
         Order
     </div>
-
+    <li class="nav-item @if(Request::segment(1)=='appointment') {{'active'}}@endif">
+        <a class="nav-link" href="{{ url('appointment')}}">
+            <i class="fas fa-fw fa-folder"></i>
+            <span>Appointment</span></a>
+    </li>
     <li class="nav-item @if(Request::segment(1)=='order') {{'active'}}@endif">
         <a class="nav-link" href="{{ url('order')}}">
             <i class="fas fa-fw fa-folder"></i>

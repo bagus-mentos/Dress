@@ -42,7 +42,8 @@
     $(function() {
 
         var table = $('#table-1').DataTable({
-            processing: true
+            bDestroy: true
+            , processing: true
             , serverSide: true
             , ajax: "{{ route('account.getAccount') }}"
             , columns: [{

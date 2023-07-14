@@ -35,10 +35,11 @@
             @method('PUT')
             @endif
             <div class="card-header">
-                <h6 class="m-0 font-weight-bold text-primary">Form {{ isset($data)?'Ubah':'Tambah' }} Order </h6>
+                <h6 class="m-0 font-weight-bold text-primary">Form {{ isset($data)?'Ubah':'Tambah' }} Order <br/> Customer : {{ $customer->name }} </h6>
             </div>
             <div class="card-body">
-
+                <input type="hidden" name="idr_customer" id="idr_customer" value="{{ $customer->idr_customer }}"/>
+                <input type="hidden" name="idt_order" value="{{ $order->idt_order }}"/>
                 <div class="form-group">
                     <label class="font-weight-bold">Product</label>
                     <select name="idr_product" id='category' class="form-control select2 select2-basic-single @error('idr_product') is-invalid @enderror" aria-required="true" aria-invalid="false">
@@ -51,7 +52,7 @@
                     <p style="width: 100%;font-size: 80%;color: #e3342f;">{{ $message }}</p>
                     @enderror
                 </div>
-                <div class="form-group">
+                {{-- <div class="form-group">
                     <label class="font-weight-bold">Customer</label>
                     <select name="idr_customer" id='category' class="form-control select2 select2-basic-single @error('idr_customer') is-invalid @enderror" aria-required="true" aria-invalid="false">
                         <option value="">-- Pilih Data --</option>
@@ -62,7 +63,7 @@
                     @error('idr_customer')
                     <p style="width: 100%;font-size: 80%;color: #e3342f;">{{ $message }}</p>
                     @enderror
-                </div>
+                </div> --}}
                 <div class="form-group">
                     <label class="font-weight-bold">Rent Start Date</label>
                     <input type="date" name="rent_start_date" class="form-control @error('rent_start_date') is-invalid @enderror" value="{{ old('rent_start_date', isset($order) ? $order->rent_start_date : '') }}">
@@ -129,7 +130,7 @@
                     @enderror
             </div>
             <div class="card-footer text-right">
-                <a href="{{ route('order.index') }}" class="btn btn-info icon-left"><i class="fas fa-arrow-left mr-1"></i>Back</a>
+                <a href="{{ route('customer.edit',$customer->idr_customer) }}" class="btn btn-info icon-left"><i class="fas fa-arrow-left mr-1"></i>Back</a>
                 <button class="btn btn-primary"><i class="far fa-save mr-1"></i>Submit</button>
             </div>
         </form>

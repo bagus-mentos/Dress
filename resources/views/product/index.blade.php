@@ -12,9 +12,8 @@
     <div class="card shadow mb-4 mt-4">
         <div class="card-header py-3">
             <div class="d-sm-flex align-items-center justify-content-between ">
-                <h6 class="m-0 font-weight-bold text-primary">DataTables </h6>
-
-                <a href="{{route('product.create')}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Add Record</a>
+                <h6 class="m-0 font-weight-bold text-primary"> </h6>
+                <a href="{{route('product.create')}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Tambah</a>
             </div>
         </div>
         <div class="card-body">
@@ -23,6 +22,7 @@
                     <thead>
                         <tr>
                             <th width='10px'>No</th>
+                            <th>Category</th>
                             <th>Sub Category</th>
                             <th>Fabric</th>
                             <th>Collection</th>
@@ -32,7 +32,7 @@
                             <th>Price</th>
                             <th>Notes</th>
                             <th>Condition</th>
-                            <th>Color</th>
+                            {{-- <th>Color</th> --}}
                             <th>Pic1</th>
                             <th>Pic2</th>
                             <th>Pic3</th>
@@ -63,12 +63,16 @@
 <script type="text/javascript">
     $(function() {
         var table = $('#table-1').DataTable({
-            processing: true
+            bDestroy: true
+            , processing: true
             , serverSide: true
             , ajax: "{{ route('product.getProduct') }}"
             , columns: [{
                     data: 'DT_RowIndex'
                     , className: "text-center"
+                }
+                , {
+                    data: 'category'
                 }
                 , {
                     data: 'subCategory'
@@ -98,30 +102,35 @@
                     data: 'condition'
                 }
                 , {
-                    data: 'color'
-                }
-                , {
                     data: "pic1"
-                    , render: function(data) {
-                        return "<a href='#' class='pop'><img src=\"products/" + data + "\" height=\"50\"/></a>";
+                    ,className: "text-center", render: function(data) {
+                        if(data != null) {
+                        return "<a href='#' class='pop'><img src=\"products/" + data + "\" height=\"50\"/></a>"
+                         }else{ return "-"}
                     }
                 }
                 , {
                     data: "pic2"
-                    , render: function(data) {
-                        return "<a href='#' class='pop'><img src=\"products/" + data + "\" height=\"50\"/></a>";
+                    , className: "text-center",render: function(data) {
+                        if(data != null) {
+                        return "<a href='#' class='pop'><img src=\"products/" + data + "\" height=\"50\"/></a>"
+                         }else{ return "-"}
                     }
                 }
                 , {
                     data: "pic3"
-                    , render: function(data) {
-                        return "<a href='#' class='pop'><img src=\"products/" + data + "\" height=\"50\"/></a>";
+                    , className: "text-center",render: function(data) {
+                        if(data != null) {
+                        return "<a href='#' class='pop'><img src=\"products/" + data + "\" height=\"50\"/></a>"
+                         }else{ return "-"}
                     }
                 }
                 , {
                     data: "pic4"
-                    , render: function(data) {
-                        return "<a href='#' class='pop'><img src=\"products/" + data + "\" height=\"50\"/></a>";
+                    , className: "text-center",render: function(data) {
+                        if(data != null) {
+                        return "<a href='#' class='pop'><img src=\"products/" + data + "\" height=\"50\"/></a>"
+                         }else{ return "-"}
                     }
                 }
                 , {

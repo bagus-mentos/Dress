@@ -12,9 +12,9 @@
     <div class="card shadow mb-4 mt-4">
         <div class="card-header py-3">
             <div class="d-sm-flex align-items-center justify-content-between ">
-                <h6 class="m-0 font-weight-bold text-primary">DataTables </h6>
+                <h6 class="m-0 font-weight-bold text-primary"> </h6>
 
-                <a href="{{route('customer.create')}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Add Record</a>
+                <a href="{{route('customer.create')}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Tambah</a>
             </div>
         </div>
         <div class="card-body">
@@ -41,7 +41,8 @@
 <script type="text/javascript">
     $(function() {
         var table = $('#table-1').DataTable({
-            processing: true
+            bDestroy: true
+            , processing: true
             , serverSide: true
             , ajax: "{{ route('customer.getCustomer') }}"
             , columns: [{

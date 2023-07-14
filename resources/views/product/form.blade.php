@@ -35,10 +35,9 @@
         @if (isset($product))
         @method('PUT')
         @endif
-
         <div class="card shadow mb-4 mt-4">
             <div class="card-header">
-                <h6 class="m-0 font-weight-bold text-primary">Klasifikasi</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Klasifikasiss</h6>
             </div>
             <div class="card-body">
                 <div class="form-group">
@@ -136,22 +135,13 @@
                     </div>
                     @enderror
                 </div>
-                <div class="form-group">
+                {{-- <div class="form-group">
                     <label class="font-weight-bold">Color</label>
                     <div id="cp2" class="input-group colorpicker-component">
                         <input type="text" value="#00AABB" class="form-control" />
                         <span class="input-group-addon"><i></i></span>
                     </div>
-                </div>
-                {{-- <div class="form-group">
-                    <label class="font-weight-bold">Color</label>
-                    <input type="text" name="color" class="form-control @error('color') is-invalid @enderror" value="{{ old('color', isset($product) ? $product->color : '') }}" placeholder="Input color">
-                @error('color')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
-                @enderror
-            </div> --}}
+                </div> --}}
 
         </div>
 </div>
@@ -183,96 +173,99 @@
     </div>
 </div>
 
-<div class="card shadow mb-4 mt-4">
-    <div class="card-header">
-        <h6 class="m-0 font-weight-bold text-primary">Gambar</h6>
-    </div>
-    <div class="card-body" align="center">
 
-        <div class="inline">
-            <div class="form-group" align="center">
-                <label class="font-weight-bold">Gambar 1</label><br />
-                <img id="img1" src="https://assets.tokopedia.net/assets-tokopedia-lite/v2/icarus/kratos/8d58e463.svg" style="width:200px;height:300px;" />
-                <input accept="image/*" type='file' id="imgInp1" class="form-control @error('pic1') is-invalid @enderror" name="pic1" />
+        <div class="card shadow mb-4 mt-4">
+            <div class="card-header">
+                <h6 class="m-0 font-weight-bold text-primary">Gambar</h6>
+            </div>
+            <div class="card-body" align="center">
+                {{-- <div id="calendar"></div> --}}
+                <div class="inline" >
+                    <div class="form-group" align="center">
+                        <label class="font-weight-bold">Gambar 1</label><br/>
+                        <img id="img1" src="{{ old('pic1', isset($product->pic1) ? '../../products/'.$product->pic1 : 'https://assets.tokopedia.net/assets-tokopedia-lite/v2/icarus/kratos/8d58e463.svg') }}" style="width:200px;height:300px;"/>
+                        <input accept="image/*" type='file' id="imgInp1" class="form-control @error('pic1') is-invalid @enderror" name="pic1" />
+                    </div>
+                </div>
+                <div class="inline" >
+                    <div class="form-group" align="center">
+                        <label class="font-weight-bold">Gambar 2</label><br/>
+                        <img id="img2" src="{{ old('pic2', isset($product->pic2) ? '../../products/'.$product->pic2 : 'https://assets.tokopedia.net/assets-tokopedia-lite/v2/icarus/kratos/8d58e463.svg') }}" style="width:200px;height:300px;"/>
+                        <input accept="image/*" type='file' id="imgInp2" class="form-control @error('pic2') is-invalid @enderror" name="pic2" />
+                    </div>
+                </div>
+                <div class="inline" >
+                    <div class="form-group" align="center">
+                        <label class="font-weight-bold">Gambar 3</label><br/>
+                        <img id="img3" src="{{ old('pic3', isset($product->pic3) ? '../../products/'.$product->pic3 : 'https://assets.tokopedia.net/assets-tokopedia-lite/v2/icarus/kratos/8d58e463.svg') }}" style="width:200px;height:300px;"/>
+                        <input accept="image/*" type='file' id="imgInp3" class="form-control @error('pic3') is-invalid @enderror" name="pic3" />
+                    </div>
+                </div>
+                <div class="inline" >
+                    <div class="form-group" align="center">
+                        <label class="font-weight-bold">Gambar 4</label><br/>
+                        <img id="img4" src="{{ old('pic4', isset($product->pic4) ? '../../products/'.$product->pic4 : 'https://assets.tokopedia.net/assets-tokopedia-lite/v2/icarus/kratos/8d58e463.svg') }}" style="width:200px;height:300px;"/>
+                        <input accept="image/*" type='file' id="imgInp4" class="form-control @error('pic4') is-invalid @enderror" name="pic4" />
+                    </div>
+                </div>
+                
             </div>
         </div>
-        <div class="inline">
-            <div class="form-group" align="center">
-                <label class="font-weight-bold">Gambar 2</label><br />
-                <img id="img2" src="https://assets.tokopedia.net/assets-tokopedia-lite/v2/icarus/kratos/8d58e463.svg" style="width:200px;height:300px;" />
-                <input accept="image/*" type='file' id="imgInp2" class="form-control @error('pic2') is-invalid @enderror" name="pic2" />
-            </div>
+        <div class="card-footer text-right">
+            <a href="{{ route('product.index') }}" class="btn btn-info icon-left"><i class="fas fa-arrow-left mr-1"></i>Back</a>
+            <button class="btn btn-primary"><i class="far fa-save mr-1"></i>Submit</button>
         </div>
-        <div class="inline">
-            <div class="form-group" align="center">
-                <label class="font-weight-bold">Gambar 3</label><br />
-                <img id="img3" src="https://assets.tokopedia.net/assets-tokopedia-lite/v2/icarus/kratos/8d58e463.svg" style="width:200px;height:300px;" />
-                <input accept="image/*" type='file' id="imgInp3" class="form-control @error('pic3') is-invalid @enderror" name="pic3" />
+        </form>
+        @if (isset($product))
+        <div class="card shadow mb-4 mt-4">
+            <div class="card-header">
+                <h6 class="m-0 font-weight-bold text-primary">Ketersediaan</h6>
             </div>
-        </div>
-        <div class="inline">
-            <div class="form-group" align="center">
-                <label class="font-weight-bold">Gambar 4</label><br />
-                <img id="img4" src="https://assets.tokopedia.net/assets-tokopedia-lite/v2/icarus/kratos/8d58e463.svg" style="width:200px;height:300px;" />
-                <input accept="image/*" type='file' id="imgInp4" class="form-control @error('pic4') is-invalid @enderror" name="pic4" />
-            </div>
-        </div>
+                <div style="width: 40%;margin-left: 30px;margin-top: 30px;margin-bottom: 30px;" id="calendar"></div>  
+            
+        </div>  
+        @endif
+</div>
 
-        {{--
-                <div class="form-group">
-                    <label class="custom-file-upload">Gambar 1
-                        <input type="file" class="form-control @error('pic1') is-invalid @enderror" name="pic1">
-                    </label>
-                    @error('pic1')
-                    <div class="alert alert-danger mt-2">
-                        {{ $message }}
-    </div>
-    @enderror
-</div>
-<div class="form-group">
-    <label class="font-weight-bold">Gambar 2</label>
-    <input type="file" class="form-control @error('pic2') is-invalid @enderror" name="pic2">
-    @error('pic2')
-    <div class="alert alert-danger mt-2">
-        {{ $message }}
-    </div>
-    @enderror
-</div>
-<div class="form-group">
-    <label class="font-weight-bold">Gambar 3</label>
-    <input type="file" class="form-control @error('pic3') is-invalid @enderror" name="pic3">
-    @error('pic3')
-    <div class="alert alert-danger mt-2">
-        {{ $message }}
-    </div>
-    @enderror
-</div>
-<div class="form-group">
-    <label class="font-weight-bold">Gambar 4</label>
-    <input type="file" class="form-control @error('pic4') is-invalid @enderror" name="pic4">
-    @error('pic4')
-    <div class="alert alert-danger mt-2">
-        {{ $message }}
-    </div>
-    @enderror
-</div>
---}}
-</div>
-</div>
-<div class="card-footer text-right">
-    <a href="{{ route('product.index') }}" class="btn btn-info icon-left"><i class="fas fa-arrow-left mr-1"></i>Back</a>
-    <button class="btn btn-primary"><i class="far fa-save mr-1"></i>Submit</button>
-</div>
-</form>
 
-</div>
+
+@stack('scripts')
+
 @endsection
+
+@push('scripts')
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
+    <script> 
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                displayEventTime: false,
+                initialView: 'dayGridMonth',
+                events: @json($events),
+            });
+            calendar.render();
+        });
+    </script>
+@endpush
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 {{-- <script src="https://code.jquery.com/jquery-2.2.2.min.js"></script> --}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.3.6/js/bootstrap-colorpicker.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+{{-- <script> 
+    document.addEventListener('DOMContentLoaded', function () {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'timeGridWeek',
+            slotMinTime: '8:00:00',
+            slotMaxTime: '19:00:00',
+            events: @json($events),
+        });
+        calendar.render();
+    });
+</script> --}}
 <script>
     $(document).ready(function() {
         $('.select2-basic-single').select2();

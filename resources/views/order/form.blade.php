@@ -1,7 +1,8 @@
 @extends('layouts.app')
 @push('styles')
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-
+@endpush
+@section('content')
 <style>
     .select2 {
         width: 100%;
@@ -22,14 +23,14 @@
     }
 
 </style>
-@endpush
-@section('content')
+
+
 <div class="container-fluid">
 
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800">Order</h1>
     <div class="card shadow mb-4 mt-4">
-        <form method="POST" action="{{ $action }}">
+        <form method="POST" action="{{ $action }}" enctype="multipart/form-data">
             @csrf
             @if (isset($order))
             @method('PUT')
@@ -41,7 +42,7 @@
 
                 <div class="form-group">
                     <label class="font-weight-bold">Product</label>
-                    <select name="idr_product" id='category' class="form-control select2 select2-basic-single @error('idr_product') is-invalid @enderror" aria-required="true" aria-invalid="false">
+                    <select name="idr_product" id='product' class="form-control select2 select2-basic-single @error('idr_product') is-invalid @enderror" aria-required="true" aria-invalid="false">
                         <option value="">-- Pilih Data --</option>
                         @foreach ($product as $res)
                         <option value="{{ $res->idr_product }}" {{ old('idr_product', isset($order) ? $order->idr_product : '') == $res->idr_product ? 'selected' : '' }}>{{ $res->name }}</option>
@@ -53,7 +54,7 @@
                 </div>
                 <div class="form-group">
                     <label class="font-weight-bold">Customer</label>
-                    <select name="idr_customer" id='category' class="form-control select2 select2-basic-single @error('idr_customer') is-invalid @enderror" aria-required="true" aria-invalid="false">
+                    <select name="idr_customer" id='customer' class="form-control select2 select2-basic-single @error('idr_customer') is-invalid @enderror" aria-required="true" aria-invalid="false">
                         <option value="">-- Pilih Data --</option>
                         @foreach ($customer as $res)
                         <option value="{{ $res->idr_customer }}" {{ old('idr_customer', isset($order) ? $order->idr_customer : '') == $res->idr_customer ? 'selected' : '' }}>{{ $res->name }}</option>
@@ -127,6 +128,7 @@
                     @error('idr_status')
                     <p style="width: 100%;font-size: 80%;color: #e3342f;">{{ $message }}</p>
                     @enderror
+                
             </div>
             <div class="card-footer text-right">
                 <a href="{{ route('order.index') }}" class="btn btn-info icon-left"><i class="fas fa-arrow-left mr-1"></i>Back</a>

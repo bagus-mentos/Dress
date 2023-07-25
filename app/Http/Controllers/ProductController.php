@@ -16,6 +16,7 @@ use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
+use DB;
 
 class ProductController extends Controller
 {
@@ -24,7 +25,9 @@ class ProductController extends Controller
      */
     public function index(): View
     {
-        // dd(SubCategory::find(2)->pluck('name'));
+        // $data = Product::where('idr_product', '9')->first();
+        // $asd = Size::whereIn('idr_size', json_decode($data->idr_size))->select(DB::raw('group_concat(name) as names'))->first();
+        // dd($asd->names);
         return view('product.index');
     }
 
@@ -32,6 +35,7 @@ class ProductController extends Controller
     {
         if ($request->ajax()) {
             $data = Product::get();
+
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('category', function ($data) {
@@ -47,7 +51,9 @@ class ProductController extends Controller
                     return Collection::where('idr_collection', $data->idr_collection)->pluck('name')->first();
                 })
                 ->addColumn('size', function ($data) {
-                    return Size::where('idr_size', $data->idr_size)->pluck('name')->first();
+                    $sd = explode(',', $data->idr_size);
+                    $asd = Size::whereIn('idr_size', $sd)->select(DB::raw('group_concat(name) as names'))->first();
+                    return $asd->names;
                 })
                 ->editColumn('price', function ($row) {
                     return 'Rp. ' . number_format($row->price) . ',-';
@@ -85,7 +91,7 @@ class ProductController extends Controller
         $collection = Collection::get();
         $size = Size::get();
         $events = [];
-        return view('product.form', compact('action', 'subCategory', 'fabric', 'collection', 'size','category','events'));
+        return view('product.form', compact('action', 'subCategory', 'fabric', 'collection', 'size', 'category', 'events'));
     }
 
     /**
@@ -110,10 +116,13 @@ class ProductController extends Controller
             'notes'     => 'required',
             'price'     => 'required|integer',
             'condition'     => 'required',
-            //'color'   => 'required'
+            'color'   => 'required'
         ]);
 
         $input = $request->all();
+        $input['idr_size'] = implode(",", $request->idr_size);
+        // $input['idr_size'] = json_encode($request->idr_size);
+        // dd($input);
 
         if ($request->hasFile('pic1')) {
             $pic1 = $request->file('pic1');
@@ -182,32 +191,33 @@ class ProductController extends Controller
     {
         $action = route('product.update', $product->idr_product);
 
-
         $events = [];
         $status = "";
         $orders = Order::with(['product', 'customer'])
-        ->where('idr_product',$product->idr_product)
-        ->get();
+            ->where('idr_product', $product->idr_product)
+            ->get();
 
         foreach ($orders as $order) {
             $date_end = Carbon::createFromFormat('Y-m-d', $order->event_date);
             $order->idr_status == 1 ? $status = '(A) ' : '';
             $events[] = [
-                'title' => $status.$order->customer->name,
+                'title' => $status . $order->customer->name,
                 'start' => $order->rent_start_date,
                 'end'   => $date_end,
             ];
         }
-        
+
         $subCategory = SubCategory::get();
         $category = Category::get();
         $fabric = Fabric::get();
         $collection = Collection::get();
         $size = Size::get();
 
-        //dd($events);
+        $expl = explode(',', $product->idr_size);
+        $encd = json_decode($product->idr_size);
+        // dd($encd);
 
-        return view('product.form', compact('product', 'action', 'subCategory', 'fabric', 'collection', 'size', 'category','events'));
+        return view('product.form', compact('product', 'action', 'subCategory', 'fabric', 'collection', 'size', 'category', 'events','encd'));
     }
 
     /**
@@ -235,6 +245,7 @@ class ProductController extends Controller
         ]);
 
         $input = $request->all();
+        $input['idr_size'] = implode(",", $request->idr_size);
 
         if ($request->hasFile('pic1')) {
             $pic1 = $request->file('pic1');

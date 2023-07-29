@@ -162,19 +162,19 @@ class OrderController extends Controller
                 ->editColumn('idr_status', function ($row) {
                     switch ($row->idr_status) {
                         case '1':
-                            return '<span class="badge bg-primary text-white">Appointment</span>';
+                            return '<span class="badge bg-primary text-white p-2">Appointment</span>';
                             break;
                         case '2':
-                            return '<span class="badge bg-success">On Going</span>';
+                            return '<span class="badge bg-success text-white p-2">On Going</span>';
                             break;
                         case '3':
-                            return '<span class="badge bg-danger">Done</span>';
+                            return '<span class="badge bg-danger text-white p-2">Done</span>';
                             break;
                         case '4':
-                            return '<span class="badge bg-warning text-dark">Warning</span>';
+                            return '<span class="badge bg-warning text-dark p-2">Warning</span>';
                             break;
                         default:
-                            return '<span class="badge bg-light text-dark">Light</span>';
+                            return '<span class="badge bg-light text-dark p-2">Light</span>';
                     }
                 })
                 ->addColumn('action', function ($row) {
@@ -234,14 +234,37 @@ class OrderController extends Controller
         return view('order.form', compact('action', 'product', 'customer','status'));
     }
 
-    public function createAppointment(): View
+    public function createc($idr_customer): View
     {
-        $action = route("order.storeAppointment");
+        // dd('asd');
+        $action = route("order.storec");
 
         $product = Product::get();
-        $customer = Customer::get();
+        $customer = Customer::find($idr_customer);
         $status = Status::get();
-        return view('order.formappointment', compact('action', 'product', 'customer','status'));
+        return view('order.formc', compact('action', 'product', 'customer','status'));
+    }
+
+    public function storec(Request $request): View
+    {
+        $this->validate($request, [
+            'idr_product' => 'required',
+            'idr_customer' => 'required',
+            'rent_start_date' => 'required',
+            'event_date' => 'required',
+        ]);
+
+        $input = $request->all();
+
+        Order::create($input);
+
+        $customer = Customer::find($request['idr_customer']);
+        
+        $action = route('customer.update', $customer->idr_customer);
+
+        return view('customer.form', compact('customer', 'action'))->with(['success' => 'Record created successfully.']);
+
+        // return redirect()->route('order.index')->with(['success' => 'Record created successfully.']);
     }
 
     /**
@@ -261,6 +284,16 @@ class OrderController extends Controller
         Order::create($input);
 
         return redirect()->route('order.index')->with(['success' => 'Record created successfully.']);
+    }
+
+    public function createAppointment(): View
+    {
+        $action = route("order.storeAppointment");
+
+        $product = Product::get();
+        $customer = Customer::get();
+        $status = Status::get();
+        return view('order.formappointment', compact('action', 'product', 'customer','status'));
     }
 
     public function storeAppointment(Request $request): RedirectResponse

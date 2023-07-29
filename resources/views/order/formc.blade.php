@@ -33,13 +33,14 @@
             @csrf
             @if (isset($order))
             @method('PUT')
+            {{-- $asd = 'asd'; --}}
             @endif
             <div class="card-header">
                 <h6 class="m-0 font-weight-bold text-primary">Form {{ isset($data)?'Ubah':'Tambah' }} Order <br/> Customer : {{ $customer->name }} </h6>
             </div>
             <div class="card-body">
                 <input type="hidden" name="idr_customer" id="idr_customer" value="{{ $customer->idr_customer }}"/>
-                <input type="hidden" name="idt_order" value="{{ $order->idt_order }}"/>
+                <input type="hidden" name="idt_order" value="{{ (isset($order)? $order->idt_order : '') }}"/>
                 <div class="form-group">
                     <label class="font-weight-bold">Product</label>
                     <select name="idr_product" id='category' class="form-control select2 select2-basic-single @error('idr_product') is-invalid @enderror" aria-required="true" aria-invalid="false">

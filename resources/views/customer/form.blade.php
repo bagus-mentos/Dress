@@ -1,4 +1,7 @@
 @extends('layouts.app')
+@push('styles')
+@include('layouts.components.css')
+@endpush
 @section('content')
 <div class="container-fluid">
 
@@ -48,36 +51,43 @@
                 <button class="btn btn-primary"><i class="far fa-save mr-1"></i>Submit</button>
             </div>
         </form>
-        
+
     </div>
     @if (isset($customer))
-        <div class="card shadow mb-4 mt-4">
-            <div class="card-header">
-                <h6 class="m-0 font-weight-bold text-primary">Order History</h6>
+    <div class="card shadow mb-4 mt-4">
+        <div class="card-header">
+            <h6 class="m-0 font-weight-bold text-primary">Order History</h6>
+        </div>
+        <div class="card-header py-3">
+            <div class="d-sm-flex align-items-center justify-content-between ">
+                <h6 class="m-0 font-weight-bold text-primary"> </h6>
+
+                <a href="{{route('order.createc', $customer->idr_customer)}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Tambah</a>
             </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered" id="table-1" width="100%" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Product</th>
-                                <th>Rent Start Date</th>
-                                <th>Rent End Date</th>
-                                <th style="width: 10%">Down Payment</th>
-                                <th style="width: 10%">Price</th>
-                                <th style="width: 10%">Remaining</th>
-                                <th>Notes</th>
-                                <th>Status</th>
-                                <th>#</th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="table-1" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Product</th>
+                            <th>Rent Start Date</th>
+                            <th>Rent End Date</th>
+                            <th style="width: 10%">Down Payment</th>
+                            <th style="width: 10%">Price</th>
+                            <th style="width: 10%">Remaining</th>
+                            <th>Notes</th>
+                            <th>Status</th>
+                            <th>#</th>
+                        </tr>
+                    </thead>
+                </table>
             </div>
-            
-        </div>  
-        @endif
+        </div>
+
+    </div>
+    @endif
 </div>
 @endsection
 @push('scripts')
@@ -90,10 +100,10 @@
             , processing: true
             , serverSide: true
             , ajax: {
-                'url': "{{ route('order.getOrderByCustomer') }}",
-                'data': {
-                    idr_customer: {{$customer->idr_customer}},   
-                }
+                url: "{{ route('order.getOrderByCustomer') }}", 
+                data: { 
+                    idr_customer: {{ $customer->idr_customer }}
+                    }
             }
             , columns: [{
                     data: 'DT_RowIndex'

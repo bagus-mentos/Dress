@@ -41,6 +41,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('order', OrderController::class);
     Route::get('editc/{id}/{idc}', [OrderController::class, 'editc'])->name('order.editc');
+    Route::get('createc/{id}', [OrderController::class, 'createc'])->name('order.createc');
+    Route::post('storec', [OrderController::class, 'storec'])->name('order.storec');
     Route::put('updatec/{id}', [OrderController::class, 'updatec'])->name('order.updatec');
     Route::get('getOrder', [OrderController::class, 'getOrder'])->name('order.getOrder');
     Route::get('getOrderByCustomer', [OrderController::class, 'getOrderByCustomer'])->name('order.getOrderByCustomer');

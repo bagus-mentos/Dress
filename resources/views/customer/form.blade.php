@@ -76,6 +76,7 @@
                             <th>Rent End Date</th>
                             <th style="width: 10%">Down Payment</th>
                             <th style="width: 10%">Price</th>
+                            <th style="width: 10%">Discount</th>
                             <th style="width: 10%">Remaining</th>
                             <th>Notes</th>
                             <th>Status</th>
@@ -123,6 +124,9 @@
                     , className: "text-right"
                 }, {
                     data: 'price'
+                    , className: "text-right"
+                }, {
+                    data: 'discount'
                     , className: "text-right"
                 }
                 , {

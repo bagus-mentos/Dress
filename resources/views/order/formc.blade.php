@@ -111,6 +111,15 @@
                     @enderror
                 </div>
                 <div class="form-group">
+                    <label class="font-weight-bold">Discount</label>
+                    <input type="number" name="discount" class="form-control @error('discount') is-invalid @enderror" value="{{ old('discount', isset($order) ? $order->discount : '') }}" placeholder="Input Discount">
+                    @error('discount')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                    @enderror
+                </div>
+                <div class="form-group">
                     <label class="font-weight-bold">Notes</label>
                     <input type="text" name="notes" class="form-control @error('notes') is-invalid @enderror" value="{{ old('notes', isset($order) ? $order->notes : '') }}" placeholder="Input notes">
                     @error('notes')

@@ -89,7 +89,7 @@ class OrderController extends Controller
                     return 'Rp. ' . number_format($row->product->price) . ',-';
                 })
                 ->editColumn('remaining', function ($row) {
-                    return 'Rp. ' . number_format($row->product->price - $row->downpayment) . ',-';
+                    return 'Rp. ' . number_format($row->product->price - $row->downpayment - $row->discount) . ',-';
                 })
                 ->editColumn('idr_status', function ($row) {
                     switch ($row->idr_status) {
@@ -157,7 +157,7 @@ class OrderController extends Controller
                     return 'Rp. ' . number_format($row->product->price) . ',-';
                 })
                 ->editColumn('remaining', function ($row) {
-                    return 'Rp. ' . number_format($row->product->price - $row->downpayment) . ',-';
+                    return 'Rp. ' . number_format($row->product->price - $row->downpayment - $row->discount) . ',-';
                 })
                 ->editColumn('idr_status', function ($row) {
                     switch ($row->idr_status) {
